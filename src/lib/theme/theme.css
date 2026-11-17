@@ -1,0 +1,100 @@
+:root {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--page);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --font-body: ui-sans-serif, system-ui, sans-serif;
+  --font-display: Georgia, 'Times New Roman', serif;
+  --mono: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+}
+
+:root,
+[data-theme='dark'] {
+  --color-scheme: dark;
+  --page: #0c0d11;
+  --ink: #f4f1eb;
+  --muted: #85848c;
+  --faint: #5c5c65;
+  --line: rgba(255, 255, 255, 0.09);
+  --panel: #14151a;
+  --panel-light: #191a21;
+  --accent: #bf3c27;
+  --accent-hover: #d14f38;
+  --accent-secondary: #56639a;
+  --button-ink: #ffffff;
+  --toolbar-surface: rgba(15, 16, 21, 0.55);
+  --row-hover: rgba(255, 255, 255, 0.035);
+  --accent-border: rgba(191, 60, 39, 0.38);
+  --accent-surface: rgba(191, 60, 39, 0.1);
+  --ink-strong: #e6e4df;
+  --border-hover: rgba(255, 255, 255, 0.22);
+  --canvas-surface: #111218;
+  --image-surface: #171820;
+  --checker: #1d1e27;
+  --surface-translucent: rgba(20, 21, 26, 0.7);
+  --progress-track: rgba(255, 255, 255, 0.1);
+  --danger: #f58c9b;
+  --drop-border: rgba(255, 255, 255, 0.15);
+  --drop-start: rgba(26, 27, 35, 0.62);
+  --drop-end: rgba(16, 17, 22, 0.42);
+  --code-bg: #202128;
+  --code-text: #ded9ef;
+  --overlay: rgba(5, 6, 9, 0.78);
+  --dialog-border: rgba(255, 255, 255, 0.14);
+  --input-bg: #0f1015;
+  --separator: #3e3f47;
+  --ambient-glow: rgba(191, 60, 39, 0.08);
+  --accent-secondary-border: rgba(86, 99, 154, 0.4);
+  --shadow-card: 0 28px 80px rgba(0, 0, 0, 0.25);
+  --shadow-dialog: 0 24px 80px rgba(0, 0, 0, 0.5);
+  --radius-control: 4px;
+  --radius-card: 8px;
+  --radius-soft: 6px;
+  --radius-pill: 999px;
+}
+
+[data-theme='light'] {
+  --color-scheme: light;
+  --page: #f4f1eb;
+  --ink: #18181c;
+  --muted: #6e6b73;
+  --faint: #98949a;
+  --line: rgba(24, 24, 28, 0.13);
+  --panel: #ffffff;
+  --panel-light: #f8f7f3;
+  --accent: #bf3c27;
+  --accent-hover: #a93421;
+  --accent-secondary: #4f5f9d;
+  --button-ink: #ffffff;
+  --toolbar-surface: rgba(255, 255, 255, 0.68);
+  --row-hover: rgba(24, 24, 28, 0.045);
+  --accent-border: rgba(191, 60, 39, 0.3);
+  --accent-surface: rgba(191, 60, 39, 0.08);
+  --ink-strong: #24242a;
+  --border-hover: rgba(24, 24, 28, 0.28);
+  --canvas-surface: #ffffff;
+  --image-surface: #ecebe7;
+  --checker: #d9d7d0;
+  --surface-translucent: rgba(255, 255, 255, 0.74);
+  --progress-track: rgba(24, 24, 28, 0.12);
+  --danger: #b43e50;
+  --drop-border: rgba(24, 24, 28, 0.2);
+  --drop-start: rgba(255, 255, 255, 0.8);
+  --drop-end: rgba(239, 237, 230, 0.72);
+  --code-bg: #e8e5de;
+  --code-text: #443d5c;
+  --overlay: rgba(22, 22, 27, 0.44);
+  --dialog-border: rgba(24, 24, 28, 0.16);
+  --input-bg: #ffffff;
+  --separator: #b4afb2;
+  --ambient-glow: rgba(191, 60, 39, 0.06);
+  --accent-secondary-border: rgba(79, 95, 157, 0.34);
+  --shadow-card: 0 28px 80px rgba(44, 40, 30, 0.12);
+  --shadow-dialog: 0 24px 80px rgba(44, 40, 30, 0.22);
+  --radius-control: 4px;
+  --radius-card: 8px;
+  --radius-soft: 6px;
+  --radius-pill: 999px;
+}

@@ -1,0 +1,12 @@
+{
+  "src/lib/jump.ts:jumpRules": {
+    "fnv": "5af7a8ccdf92318c",
+    "output": "src/lib/_lean/jump__jumpRules.ts",
+    "sha256": "a549b5fe0dd33477094e11f6e76b1fe6c9fca446772e7d4896d3d2cecffdfc94"
+  },
+  "src/lib/merge/mergeAdjacentCues.ts:mergeRules": {
+    "fnv": "d8026bfee223d988",
+    "output": "src/lib/merge/_lean/mergeAdjacentCues__mergeRules.ts",
+    "sha256": "15fe5086788f0620947d598e6f92961e4391fc2f439e39a26ecbb14ce6a7f88c"
+  }
+}
