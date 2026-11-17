@@ -28,6 +28,8 @@
    - Toggle between dark and light themes with persistence in `localStorage`.
 5. **Non-blocking Execution**:
    - The UI remains completely interactive and responsive while large files are being parsed.
+6. **SUP Export**:
+   - Export a locally generated `.sup` file from PGS input, optionally using the merged cue list to remove redundant identical display sets.
 
 ## Adjacent Cue Merge Rules
 
@@ -76,5 +78,5 @@ The following capabilities are deliberately out of scope:
 - Synchronized video playback.
 - Subtitle text editing or timing adjustment.
 - Subtitle translation.
-- File export or format conversion.
+- Exporting formats other than generated PGS `.sup` files.
 - Backend services, user accounts, or cloud storage.

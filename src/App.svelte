@@ -15,9 +15,11 @@
     parseTimeInput,
   } from './lib/jump';
   import type { JumpTarget } from './lib/jump';
-  import type { MergedCue, ParseResult } from './lib/model/cue';
+  import { mergeAdjacentCues } from './lib/merge/mergeAdjacentCues';
+  import type { MergedCue, ParseResult, SubtitleCue } from './lib/model/cue';
 
   let cues: MergedCue[] = [];
+  let sourceCues: SubtitleCue[] = [];
   let format: ParseResult['format'] | undefined;
   let fileName = '';
   let status = 'Drop a .sup file or an .idx + .sub pair to begin.';
@@ -34,6 +36,8 @@
   let pendingIdx: File | undefined;
   let lastFocusedElement: HTMLElement | null = null;
   let cueRows: HTMLDivElement[] = [];
+  let mergeOnExport = true;
+  let isExporting = false;
 
   $: activeCue = cues[activeIndex];
   $: duration = cues.reduce((longest, cue) => Math.max(longest, cue.endMs), 0);
@@ -107,7 +111,9 @@
       status = 'Parsing locally…';
       const worker = new Worker(new URL('./lib/worker/parser.worker.ts', import.meta.url), { type: 'module' });
       worker.onmessage = (
-        event: MessageEvent<{ type: 'result'; result: ParseResult } | { type: 'error'; message: string }>,
+        event: MessageEvent<
+          { type: 'result'; format: ParseResult['format']; cues: SubtitleCue[] } | { type: 'error'; message: string }
+        >,
       ) => {
         worker.terminate();
         isParsing = false;
@@ -115,8 +121,9 @@
           error = event.data.message;
           status = 'Parsing failed.';
         } else {
-          cues = [...event.data.result.cues];
-          format = event.data.result.format;
+          sourceCues = event.data.cues;
+          cues = mergeAdjacentCues(sourceCues);
+          format = event.data.format;
           fileName = name;
           activeIndex = 0;
           status = cues.length > 0 ? 'Ready for local preview.' : 'No image cues were found.';
@@ -133,6 +140,38 @@
       if (request.type === 'sup') worker.postMessage(request, [request.data]);
       else worker.postMessage(request, [request.subData]);
     });
+  }
+
+  async function exportSup(): Promise<void> {
+    if (format !== 'sup' || sourceCues.length === 0 || isExporting) return;
+    isExporting = true;
+    error = '';
+    const worker = new Worker(new URL('./lib/worker/parser.worker.ts', import.meta.url), { type: 'module' });
+    worker.onmessage = (
+      event: MessageEvent<{ type: 'export-result'; data: ArrayBuffer } | { type: 'error'; message: string }>,
+    ) => {
+      worker.terminate();
+      isExporting = false;
+      if (event.data.type === 'error') {
+        error = event.data.message;
+        status = 'Export failed.';
+        return;
+      }
+      const blob = new Blob([event.data.data], { type: 'application/octet-stream' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${fileName.replace(/\.sup$/i, '') || 'subtitle'}${mergeOnExport ? '.merged' : ''}.sup`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+      status = mergeOnExport ? 'Merged SUP exported.' : 'SUP exported.';
+    };
+    worker.onerror = () => {
+      worker.terminate();
+      isExporting = false;
+      error = 'The export worker stopped unexpectedly.';
+      status = 'Export failed.';
+    };
+    worker.postMessage({ type: 'export-sup', cues: mergeOnExport ? cues : sourceCues });
   }
 
   function openJump(): void {
@@ -300,6 +339,15 @@
             <h2>{formatTime(activeCue.startMs)} <span>→</span> {formatTime(activeCue.endMs)}</h2>
           </div>
           <div class="preview-actions">
+            {#if format === 'sup'}
+              <label class="export-option">
+                <input type="checkbox" bind:checked={mergeOnExport} />
+                <span>Merge identical cues</span>
+              </label>
+              <UiButton variant="secondary" on:click={exportSup} disabled={isExporting} aria-label="Export SUP file">
+                {isExporting ? 'Exporting…' : 'Export SUP'}
+              </UiButton>
+            {/if}
             <UiButton
               variant="icon"
               on:click={() => selectCue(activeIndex - 1)}

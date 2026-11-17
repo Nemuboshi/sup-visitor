@@ -349,7 +349,21 @@ h2 {
 
 .preview-actions {
   display: flex;
-  gap: 5px;
+  align-items: center;
+  gap: 8px;
+}
+
+.export-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.export-option input {
+  accent-color: var(--accent);
 }
 
 .icon-button,
